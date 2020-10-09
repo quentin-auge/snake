@@ -17,6 +17,36 @@
       speed = 3;
       rectSize = 50;
 
+      dx = speed;
+      dy = 0;
+
+      function move(e)
+      {
+        switch(e.keyCode)
+        {
+          case 37:
+            // left
+            dx = -speed;
+            dy = 0;
+            break;
+          case 38:
+            // up
+            dx = 0;
+            dy = -speed;
+            break;
+          case 39:
+            // right
+            dx = speed;
+            dy = 0;
+            break;
+          case 40:
+            // down
+            dx = 0;
+            dy = speed;
+            break;
+        }
+      }
+
       x = 0;
       y = 0;
 
@@ -24,11 +54,11 @@
       {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        x = (x + 1 * speed) % canvas.width;
+        x = (x + dx) % canvas.width;
         if (x < -rectSize)
           x = canvas.width - rectSize;
 
-        y = (y + 2 * speed) % canvas.height;
+        y = (y + dy) % canvas.height;
         if (y < -rectSize)
           y = canvas.height - rectSize;
 
@@ -39,6 +69,8 @@
       }
 
       requestAnimationFrame(draw);
+
+      window.addEventListener('keydown', move, false);
     </script>
   </body>
 </html>
