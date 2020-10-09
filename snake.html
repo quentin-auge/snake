@@ -15,60 +15,91 @@
       ctx = canvas.getContext('2d');
 
       speed = 3;
-      rectSize = 50;
 
-      dx = speed;
-      dy = 0;
+      class Square
+      {
+        constructor(x, y, size)
+        {
+          this.x = x;
+          this.y = y;
+          this.orientRight();
+          this.size = size;
+        }
+
+        draw()
+        {
+          ctx.fillStyle = 'blue';
+          ctx.fillRect(this.x, this.y, this.size, this.size);
+        }
+
+        move(speed)
+        {
+          this.x = (this.x + this.dx * speed) % canvas.width;
+          if (this.x < -this.size)
+            this.x = canvas.width - this.size;
+
+          this.y = (this.y + this.dy * speed) % canvas.height;
+          if (this.y < -this.size)
+            this.y = canvas.height - this.size;
+        }
+
+        orientLeft()
+        {
+          this.dx = -1;
+          this.dy = 0;
+        }
+
+        orientUp()
+        {
+          this.dx = 0;
+          this.dy = -1;
+        }
+
+        orientRight()
+        {
+          this.dx = 1;
+          this.dy = 0;
+        }
+
+        orientDown()
+        {
+          this.dx = 0;
+          this.dy = 1;
+        }
+      }
+
+      square = new Square(x = 0, y = 0, size = 50)
 
       function move(e)
       {
         switch(e.keyCode)
         {
           case 37:
-            // left
-            dx = -speed;
-            dy = 0;
+            square.orientLeft(speed);
             break;
           case 38:
-            // up
-            dx = 0;
-            dy = -speed;
+            square.orientUp(speed);
             break;
           case 39:
-            // right
-            dx = speed;
-            dy = 0;
+            square.orientRight(speed);
             break;
           case 40:
-            // down
-            dx = 0;
-            dy = speed;
+            square.orientDown(speed);
             break;
         }
       }
 
-      x = 0;
-      y = 0;
-
-      function draw()
+      function run()
       {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        x = (x + dx) % canvas.width;
-        if (x < -rectSize)
-          x = canvas.width - rectSize;
+        square.move(speed)
+        square.draw()
 
-        y = (y + dy) % canvas.height;
-        if (y < -rectSize)
-          y = canvas.height - rectSize;
-
-        ctx.fillStyle = 'blue';
-        ctx.fillRect(x, y, rectSize, rectSize);
-
-        requestAnimationFrame(draw);
+        requestAnimationFrame(run);
       }
 
-      requestAnimationFrame(draw);
+      requestAnimationFrame(run);
 
       window.addEventListener('keydown', move, false);
     </script>
