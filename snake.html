@@ -14,6 +14,9 @@
       canvas = document.getElementById('canvas');
       ctx = canvas.getContext('2d');
 
+      speed = 3;
+      rectSize = 50;
+
       x = 0;
       y = 0;
 
@@ -21,11 +24,16 @@
       {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        x += 1
-        y += 2
+        x = (x + 1 * speed) % canvas.width;
+        if (x < -rectSize)
+          x = canvas.width - rectSize;
+
+        y = (y + 2 * speed) % canvas.height;
+        if (y < -rectSize)
+          y = canvas.height - rectSize;
 
         ctx.fillStyle = 'blue';
-        ctx.fillRect(x, y, 50, 50);
+        ctx.fillRect(x, y, rectSize, rectSize);
 
         requestAnimationFrame(draw);
       }
