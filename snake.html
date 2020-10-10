@@ -26,12 +26,11 @@
       const frameRate = 15;
       frameIndex = 0;
 
-			class Square
+      class Snake
       {
-        constructor(x, y)
+        constructor(body)
         {
-          this.x = x;
-          this.y = y;
+          this.body = body;
           this.orientRight();
         }
 
@@ -61,18 +60,32 @@
 
         step()
         {
-	        this.x = (this.x + this.dx + grid.width) % grid.width
-	        this.y = (this.y + this.dy + grid.height) % grid.height
+          // Pop tail
+          this.body.shift()
+
+          // Push new head
+          var head = this.body[this.body.length - 1]
+          var newHead = {
+            x: (head.x + this.dx + grid.width) % grid.width,
+            y: (head.y + this.dy + grid.height) % grid.height
+          }
+          this.body.push(newHead)
+
+          console.log(this.body)
         }
 
         draw()
         {
           ctx.fillStyle = 'blue';
-        	ctx.fillRect(this.x * grid.step, this.y * grid.step, grid.step, grid.step);
+          this.body.forEach(function(square)
+          {
+            ctx.fillRect(square.x * grid.step, square.y * grid.step, grid.step, grid.step);
+          })
         }
       }
 
-      square = new Square(0, 0)
+      body = [{x: 0, y: 0}, {x: 1, y: 0}, {x: 2, y: 0}, {x: 3, y: 0}, {x: 4, y: 0}, {x: 5, y: 0}, {x: 6, y: 0}, {x: 7, y: 0}, {x: 8, y: 0}]
+      snake = new Snake(body)
 
       function loop()
       {
@@ -85,8 +98,8 @@
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        square.step()
-        square.draw()
+        snake.step()
+        snake.draw()
       }
 
       requestAnimationFrame(loop);
@@ -96,16 +109,16 @@
         switch(e.keyCode)
         {
           case 37:
-            square.orientLeft();
+            snake.orientLeft();
             break;
           case 38:
-            square.orientUp();
+            snake.orientUp();
             break;
           case 39:
-            square.orientRight();
+            snake.orientRight();
             break;
           case 40:
-            square.orientDown();
+            snake.orientDown();
             break;
         }
       }
