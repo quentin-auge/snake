@@ -30,8 +30,8 @@
       {
         constructor(x, y, size)
         {
-          this.body = this.initialBody(x, y, size);
-          this.orientRight();
+          this.initialBody = this.initialBody(x, y, size);
+          this.reset();
         }
 
         initialBody(x, y, size)
@@ -53,36 +53,42 @@
           return body;
         }
 
-        orientLeft()
+        reset()
         {
-          if (this.dx)
+          this.body = Array.from(this.initialBody);
+          this.orientRight(true);
+        }
+
+        orientLeft(force = false)
+        {
+          if (!force && this.dx)
             return
 
           this.dx = -1;
           this.dy = 0;
         }
 
-        orientUp()
+        orientUp(force = false)
         {
-          if (this.dy)
+          if (!force && this.dy)
             return
 
           this.dx = 0;
           this.dy = -1;
         }
 
-        orientRight()
+        orientRight(force = false)
         {
-          if (this.dx)
+          if (!force && this.dx)
             return
 
           this.dx = 1;
           this.dy = 0;
         }
 
-        orientDown()
+        orientDown(force = false)
         {
-          if (this.dy)
+          if (!force && this.dy)
             return
 
           this.dx = 0;
@@ -157,6 +163,11 @@
           case 32:
             // space
             snake.eat();
+            break;
+
+          case 8:
+            // backspace
+            snake.reset();
             break;
         }
       }
