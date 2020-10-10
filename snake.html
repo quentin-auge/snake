@@ -24,7 +24,7 @@
       canvas.height = grid.height * grid.step;
 
       const frameRate = 15;
-      frameIndex = 0;
+      var frameIndex = 0;
 
       class Snake
       {
@@ -100,7 +100,7 @@
           // Pop tail
           this.body.shift()
 
-          // Push new head
+          // Create new head
           var head = this.head
           var newHead = {
             x: (head.x + this.dx + grid.width) % grid.width,
@@ -114,6 +114,7 @@
             return;
           }
 
+          // Push new head
           this.body.push(newHead)
         }
 
@@ -180,12 +181,12 @@
         }
       }
 
-      snake = new Snake(0, 0, 3);
-      food1 = new Food(snake);
-      food2 = new Food(snake);
-      food3 = new Food(snake);
+      var snake = new Snake(0, 0, 3);
+      var food1 = new Food(snake);
+      var food2 = new Food(snake);
+      var food3 = new Food(snake);
 
-      pause = false;
+      var pause = false;
 
       function loop()
       {
