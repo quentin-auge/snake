@@ -181,7 +181,9 @@
       }
 
       snake = new Snake(0, 0, 3);
-      food = new Food(snake)
+      food1 = new Food(snake);
+      food2 = new Food(snake);
+      food3 = new Food(snake);
 
       function loop()
       {
@@ -197,12 +199,26 @@
         snake.step();
         snake.draw();
 
-        food.draw();
+        food1.draw();
+        food2.draw();
+        food3.draw();
 
-        if (Snake.sameSquare(snake.head, food.location))
+        if (Snake.sameSquare(snake.head, food1.location))
         {
           snake.eat();
-          food.randomize();
+          food1.randomize();
+        }
+
+        if (Snake.sameSquare(snake.head, food2.location))
+        {
+          snake.eat();
+          food2.randomize();
+        }
+
+        if (Snake.sameSquare(snake.head, food3.location))
+        {
+          snake.eat();
+          food3.randomize();
         }
       }
 
