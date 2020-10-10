@@ -26,8 +26,53 @@
       const frameRate = 15;
       frameIndex = 0;
 
-      x = 0;
-      y = 0;
+			class Square
+      {
+        constructor(x, y)
+        {
+          this.x = x;
+          this.y = y;
+          this.orientRight();
+        }
+
+        orientLeft()
+        {
+          this.dx = -1;
+          this.dy = 0;
+        }
+
+        orientUp()
+        {
+          this.dx = 0;
+          this.dy = -1;
+        }
+
+        orientRight()
+        {
+          this.dx = 1;
+          this.dy = 0;
+        }
+
+        orientDown()
+        {
+          this.dx = 0;
+          this.dy = 1;
+        }
+
+        step()
+        {
+	        this.x = (this.x + this.dx + grid.width) % grid.width
+	        this.y = (this.y + this.dy + grid.height) % grid.height
+        }
+
+        draw()
+        {
+          ctx.fillStyle = 'blue';
+        	ctx.fillRect(this.x * grid.step, this.y * grid.step, grid.step, grid.step);
+        }
+      }
+
+      square = new Square(0, 0)
 
       function loop()
       {
@@ -40,17 +85,32 @@
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        x = (x + grid.width) % grid.width
-        y = (y + grid.height) % grid.height
-
-        ctx.fillStyle = 'blue';
-        ctx.fillRect(x * grid.step, y * grid.step, grid.step, grid.step);
-
-        x += 1
-        y += 1
+        square.step()
+        square.draw()
       }
 
       requestAnimationFrame(loop);
+
+      function keydown(e)
+      {
+        switch(e.keyCode)
+        {
+          case 37:
+            square.orientLeft();
+            break;
+          case 38:
+            square.orientUp();
+            break;
+          case 39:
+            square.orientRight();
+            break;
+          case 40:
+            square.orientDown();
+            break;
+        }
+      }
+
+      window.addEventListener('keydown', keydown, false);
     </script>
   </body>
 </html>
