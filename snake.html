@@ -106,7 +106,20 @@
             x: (head.x + this.dx + grid.width) % grid.width,
             y: (head.y + this.dy + grid.height) % grid.height
           }
+
+          // Check collision
+          if (this.bodyContains(newHead))
+          {
+            this.reset();
+            return;
+          }
+
           this.body.push(newHead)
+        }
+
+        bodyContains(square)
+        {
+          return this.body.some(function(bodySquare) {return JSON.stringify(square) == JSON.stringify(bodySquare)});
         }
 
         eat()
