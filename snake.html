@@ -28,10 +28,29 @@
 
       class Snake
       {
-        constructor(body)
+        constructor(x, y, size)
         {
-          this.body = body;
+          this.body = this.initialBody(x, y, size);
           this.orientRight();
+        }
+
+        initialBody(x, y, size)
+        {
+        	var body = [];
+        	var i = 0;
+        	while (i < size)
+        	{
+        		if (i >= grid.width)
+        		{
+        			throw `x = ${i} out of range`
+        		}
+
+        		body.push({x: x + i, y: y})
+
+        		i++;
+        	}
+
+        	return body;
         }
 
         orientLeft()
@@ -70,8 +89,6 @@
             y: (head.y + this.dy + grid.height) % grid.height
           }
           this.body.push(newHead)
-
-          console.log(this.body)
         }
 
         draw()
@@ -84,8 +101,7 @@
         }
       }
 
-      body = [{x: 0, y: 0}, {x: 1, y: 0}, {x: 2, y: 0}, {x: 3, y: 0}, {x: 4, y: 0}, {x: 5, y: 0}, {x: 6, y: 0}, {x: 7, y: 0}, {x: 8, y: 0}]
-      snake = new Snake(body)
+      snake = new Snake(0, 0, 3);
 
       function loop()
       {
