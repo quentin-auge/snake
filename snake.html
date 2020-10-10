@@ -185,9 +185,14 @@
       food2 = new Food(snake);
       food3 = new Food(snake);
 
+      pause = false;
+
       function loop()
       {
-        requestAnimationFrame(loop);
+        if (!pause)
+        {
+          requestAnimationFrame(loop);
+        }
 
         // Apply frame rate
         frameIndex = (frameIndex + 1) % Math.floor(60 / frameRate)
@@ -243,7 +248,9 @@
 
           case 32:
             // space
-            snake.eat();
+            pause = !pause;
+            if (!pause)
+              requestAnimationFrame(loop);
             break;
 
           case 8:
