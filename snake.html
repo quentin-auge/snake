@@ -90,13 +90,18 @@
           this.dy = 1;
         }
 
+        get head()
+        {
+          return this.body[this.body.length - 1]
+        }
+
         step()
         {
           // Pop tail
           this.body.shift()
 
           // Push new head
-          var head = this.body[this.body.length - 1]
+          var head = this.head
           var newHead = {
             x: (head.x + this.dx + grid.width) % grid.width,
             y: (head.y + this.dy + grid.height) % grid.height
@@ -120,9 +125,14 @@
           }
         }
 
+        static sameSquare(square1, square2)
+        {
+          return JSON.stringify(square1) == JSON.stringify(square2);
+        }
+
         bodyContains(square)
         {
-          return this.body.some(function(bodySquare) {return JSON.stringify(square) == JSON.stringify(bodySquare)});
+          return this.body.some(function(bodySquare) {return Snake.sameSquare(square, bodySquare)});
         }
 
         eat()
@@ -140,7 +150,38 @@
         }
       }
 
+      class Food
+      {
+        constructor(snake)
+        {
+          this.snake = snake;
+          this.location = this.randomize();
+        }
+
+        randomize()
+        {
+          var location = {
+            x: Math.floor(Math.random() * grid.width),
+            y: Math.floor(Math.random() * grid.height)
+          }
+
+          if (this.snake.bodyContains(location))
+            return this.randomize()
+
+          this.location = location
+
+          return location
+        }
+
+        draw()
+        {
+          ctx.fillStyle = 'red'
+          ctx.fillRect(this.location.x * grid.step, this.location.y * grid.step, grid.step, grid.step);
+        }
+      }
+
       snake = new Snake(0, 0, 3);
+      food = new Food(snake)
 
       function loop()
       {
@@ -153,8 +194,16 @@
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        snake.step()
-        snake.draw()
+        snake.step();
+        snake.draw();
+
+        food.draw();
+
+        if (Snake.sameSquare(snake.head, food.location))
+        {
+          snake.eat();
+          food.randomize();
+        }
       }
 
       requestAnimationFrame(loop);
