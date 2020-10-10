@@ -15,16 +15,39 @@
       ctx = canvas.getContext('2d');
 
       const grid = {
-      	step: 30,
-      	width: 30,
-      	height: 20
+        step: 30,
+        width: 30,
+        height: 20
+      };
+
+      canvas.width = grid.width * grid.step;
+      canvas.height = grid.height * grid.step;
+
+      const frameRate = 15;
+      frameIndex = 0;
+
+      x = 0;
+      y = 0;
+
+      function loop()
+      {
+        requestAnimationFrame(loop);
+
+        // Apply frame rate
+        frameIndex = (frameIndex + 1) % Math.floor(60 / frameRate)
+        if (frameIndex != 0)
+          return
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = 'blue';
+        ctx.fillRect(x * grid.step, y * grid.step, grid.step, grid.step);
+
+        x += 1
+        y += 1
       }
 
-      canvas.width = grid.width * grid.step
-      canvas.height = grid.height * grid.step
-
-      ctx.fillStyle = 'blue';
-      ctx.fillRect((grid.width - 1) * grid.step, (grid.height - 1) * grid.step, grid.step, grid.step);
+      requestAnimationFrame(loop);
     </script>
   </body>
 </html>
