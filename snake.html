@@ -103,6 +103,11 @@
           this.body.push(newHead)
         }
 
+        eat()
+        {
+          this.body.unshift(this.body[0])
+        }
+
         draw()
         {
           ctx.fillStyle = 'blue';
@@ -147,6 +152,11 @@
             break;
           case 40:
             snake.orientDown();
+            break;
+
+          case 32:
+            // space
+            snake.eat();
             break;
         }
       }
