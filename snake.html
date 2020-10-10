@@ -36,43 +36,55 @@
 
         initialBody(x, y, size)
         {
-        	var body = [];
-        	var i = 0;
-        	while (i < size)
-        	{
-        		if (i >= grid.width)
-        		{
-        			throw `x = ${i} out of range`
-        		}
+          var body = [];
+          var i = 0;
+          while (i < size)
+          {
+            if (i >= grid.width)
+            {
+              throw `x = ${i} out of range`
+            }
 
-        		body.push({x: x + i, y: y})
+            body.push({x: x + i, y: y})
 
-        		i++;
-        	}
+            i++;
+          }
 
-        	return body;
+          return body;
         }
 
         orientLeft()
         {
+          if (this.dx)
+            return
+
           this.dx = -1;
           this.dy = 0;
         }
 
         orientUp()
         {
+          if (this.dy)
+            return
+
           this.dx = 0;
           this.dy = -1;
         }
 
         orientRight()
         {
+          if (this.dx)
+            return
+
           this.dx = 1;
           this.dy = 0;
         }
 
         orientDown()
         {
+          if (this.dy)
+            return
+
           this.dx = 0;
           this.dy = 1;
         }
