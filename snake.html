@@ -14,94 +14,17 @@
       canvas = document.getElementById('canvas');
       ctx = canvas.getContext('2d');
 
-      speed = 3;
-
-      class Square
-      {
-        constructor(x, y, size)
-        {
-          this.x = x;
-          this.y = y;
-          this.orientRight();
-          this.size = size;
-        }
-
-        draw()
-        {
-          ctx.fillStyle = 'blue';
-          ctx.fillRect(this.x, this.y, this.size, this.size);
-        }
-
-        move(speed)
-        {
-          this.x = (this.x + this.dx * speed) % canvas.width;
-          if (this.x < -this.size)
-            this.x = canvas.width - this.size;
-
-          this.y = (this.y + this.dy * speed) % canvas.height;
-          if (this.y < -this.size)
-            this.y = canvas.height - this.size;
-        }
-
-        orientLeft()
-        {
-          this.dx = -1;
-          this.dy = 0;
-        }
-
-        orientUp()
-        {
-          this.dx = 0;
-          this.dy = -1;
-        }
-
-        orientRight()
-        {
-          this.dx = 1;
-          this.dy = 0;
-        }
-
-        orientDown()
-        {
-          this.dx = 0;
-          this.dy = 1;
-        }
+      const grid = {
+      	step: 30,
+      	width: 30,
+      	height: 20
       }
 
-      square = new Square(x = 0, y = 0, size = 50)
+      canvas.width = grid.width * grid.step
+      canvas.height = grid.height * grid.step
 
-      function move(e)
-      {
-        switch(e.keyCode)
-        {
-          case 37:
-            square.orientLeft(speed);
-            break;
-          case 38:
-            square.orientUp(speed);
-            break;
-          case 39:
-            square.orientRight(speed);
-            break;
-          case 40:
-            square.orientDown(speed);
-            break;
-        }
-      }
-
-      function run()
-      {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        square.move(speed)
-        square.draw()
-
-        requestAnimationFrame(run);
-      }
-
-      requestAnimationFrame(run);
-
-      window.addEventListener('keydown', move, false);
+      ctx.fillStyle = 'blue';
+      ctx.fillRect((grid.width - 1) * grid.step, (grid.height - 1) * grid.step, grid.step, grid.step);
     </script>
   </body>
 </html>
